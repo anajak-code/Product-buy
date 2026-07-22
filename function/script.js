@@ -127,7 +127,7 @@ async function loadRelatedProducts(currentId) {
                     <div class="product-info">
                         <h3 class="product-name">${product.name}</h3>
                         <div class="product-price">$${product.price.toFixed(2)}</div>
-                        <a href="product.html?id=${product.id}" class="btn btn-primary btn-sm btn-block">View</a>
+                        <a href="product?id=${product.id}" class="btn btn-primary btn-sm btn-block">View</a>
                     </div>
                 </div>
             `).join('');
@@ -165,7 +165,7 @@ function loadCartPage() {
                 <i class="fas fa-shopping-cart"></i>
                 <h2>Your cart is empty</h2>
                 <p>Start shopping to add items to your cart</p>
-                <a href="index.html" class="btn btn-primary" style="margin-top:20px;">Continue Shopping</a>
+                <a href="./" class="btn btn-primary" style="margin-top:20px;">Continue Shopping</a>
             </div>
         `;
         return;
@@ -242,7 +242,7 @@ function loadCheckoutItems() {
     const totalEl = document.getElementById('checkout-total');
     
     if (cart.length === 0) {
-        window.location.href = 'cart.html';
+        window.location.href = './cart';
         return;
     }
 
@@ -288,7 +288,7 @@ async function placeOrder(e) {
             Cart.clear();
             showToast('Order placed successfully!', 'success');
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = './';
             }, 2000);
         } else {
             throw new Error(result.error || 'Failed to create order');
