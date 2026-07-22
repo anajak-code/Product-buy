@@ -106,7 +106,7 @@ async function loadProductDetails(productId) {
             <div class="empty-state">
                 <i class="fas fa-exclamation-triangle"></i>
                 <p>Product not found</p>
-                <a href="index.html" class="btn btn-primary" style="margin-top:20px;">Back to Home</a>
+                <a href="./" class="btn btn-primary" style="margin-top:20px;">Back to Home</a>
             </div>
         `;
     }
@@ -212,7 +212,7 @@ function loadCartPage() {
                 <span>Total</span>
                 <span>$${total.toFixed(2)}</span>
             </div>
-            <a href="checkout.html" class="btn btn-primary btn-block btn-lg" style="margin-top:20px;">
+            <a href="checkout" class="btn btn-primary btn-block btn-lg" style="margin-top:20px;">
                 Proceed to Checkout
             </a>
         </div>
