@@ -43,7 +43,7 @@ async function loadProducts(searchQuery = '') {
                             ${product.stock === 0 ? 'disabled' : ''}>
                         <i class="fas fa-cart-plus"></i> Add to Cart
                     </button>
-                    <a href="product.html?id=${product.id}" class="btn btn-sm" style="margin-top:10px;width:100%;text-align:center;">
+                    <a href="product?id=${product.id}" class="btn btn-sm" style="margin-top:10px;width:100%;text-align:center;">
                         View Details
                     </a>
                 </div>
