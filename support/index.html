@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Ticket - AnajakCode</title>
+    <link rel="stylesheet" href="../theme/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="glass-header">
+        <div class="container header-content">
+            <a href="../products/" class="logo">AnajakCode</a>
+            <nav class="nav-links">
+                <a href="../products/">Plugins</a>
+                <a href="../purchase/">My Purchases</a>
+                <a href="../support/" class="active">Support</a>
+                <a href="../tickets/">My Tickets</a>
+                <a href="../cart/" class="cart-link"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-hero">
+            <h1><i class="fas fa-headset"></i> Submit a Support Ticket</h1>
+            <p>Having issues? We're here to help! Fill out the form below and we'll get back to you within 24 hours.</p>
+        </div>
+
+        <div class="ticket-form-container">
+            <form id="ticket-form" onsubmit="submitTicket(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ticket-name"><i class="fas fa-user"></i> Your Name *</label>
+                        <input type="text" id="ticket-name" required placeholder="John Doe" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="ticket-email"><i class="fas fa-envelope"></i> Your Email *</label>
+                        <input type="email" id="ticket-email" required placeholder="your@email.com" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket-subject"><i class="fas fa-tag"></i> Subject *</label>
+                    <input type="text" id="ticket-subject" required placeholder="Brief description of your issue" class="form-control">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ticket-category"><i class="fas fa-folder"></i> Category *</label>
+                        <select id="ticket-category" required class="form-control">
+                            <option value="">Select Category</option>
+                            <option value="technical">Technical Issue</option>
+                            <option value="billing">Billing/Payment</option>
+                            <option value="plugin">Plugin Question</option>
+                            <option value="installation">Installation Help</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ticket-priority"><i class="fas fa-exclamation-circle"></i> Priority</label>
+                        <select id="ticket-priority" class="form-control">
+                            <option value="low">Low</option>
+                            <option value="normal" selected>Normal</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket-message"><i class="fas fa-comment-dots"></i> Message *</label>
+                    <textarea id="ticket-message" required rows="10" placeholder="Please describe your issue in detail..." class="form-control"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-paper-plane"></i> Submit Ticket
+                    </button>
+                    <a href="../tickets/" class="btn btn-outline btn-lg">
+                        <i class="fas fa-list"></i> View My Tickets
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3>AnajakCode</h3>
+                <p>If you want plugins, you can find them on our website, both free and purchased.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://t.me/anajakcode" target="_blank"><i class="fab fa-telegram"></i> Telegram channel</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; All rights reserved by AnajakCode</p>
+        </div>
+    </footer>
+
+    <script src="../api.js"></script>
+    <script src="../function/script.js"></script>
+</body>
+</html>
