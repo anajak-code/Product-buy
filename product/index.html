@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
-    <link rel="stylesheet" href="./theme/style.css">
+    <link rel="stylesheet" href="../theme/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -13,11 +13,11 @@
         <div class="container">
             <div class="header-top">
                 <div class="logo">
-                    <a href="./"> AnajkCode</a>
+                    <a href="/">⚡ ShopName</a>
                 </div>
                 <div class="header-actions">
-                    <a href="./" class="btn btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
-                    <a href="./cart" class="cart-icon">
+                    <a href="/" class="btn btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+                    <a href="cart" class="cart-icon">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count" id="cart-count">0</span>
                     </a>
@@ -42,14 +42,12 @@
     <section class="related-products">
         <div class="container">
             <h2>Related Products</h2>
-            <div id="related-products-grid" class="products-grid">
-                <!-- Related products will be loaded here -->
-            </div>
+            <div id="related-products-grid" class="products-grid"></div>
         </div>
     </section>
 
-    <script src="./api.js"></script>
-    <script src="./function/script.js"></script>
+    <script src="../api.js"></script>
+    <script src="../function/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
