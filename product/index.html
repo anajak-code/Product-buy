@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title>Product Details - AnajakCode</title>
     <link rel="stylesheet" href="../theme/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-top">
                 <div class="logo">
-                    <a href="/">⚡ ShopName</a>
+                    <a href="/">AnajakCode</a>
                 </div>
                 <div class="header-actions">
-                    <a href="/" class="btn btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+                    <a href="/" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
                     <a href="cart" class="cart-icon">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-shopping-bag"></i>
                         <span class="cart-count" id="cart-count">0</span>
                     </a>
                 </div>
@@ -26,22 +25,22 @@
         </div>
     </header>
 
-    <!-- Product Details -->
     <section class="product-details">
         <div class="container">
             <div id="product-content" class="product-content">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <p>Loading product...</p>
+                    <p>Loading product details...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Related Products -->
-    <section class="related-products">
+    <section class="products-section" style="background: white; border-top: 1px solid var(--border);">
         <div class="container">
-            <h2>Related Products</h2>
+            <div class="section-header">
+                <h2>Related Products</h2>
+            </div>
             <div id="related-products-grid" class="products-grid"></div>
         </div>
     </section>
