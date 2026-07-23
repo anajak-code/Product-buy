@@ -1,3 +1,5 @@
+let currentDiscount = 0;
+
 // Load Products
 async function loadProducts() {
     const grid = document.getElementById('products-grid');
@@ -29,9 +31,7 @@ function addToCart(id) {
     API.getProduct(id).then(p => {
         API.addToCart(p);
         showToast('Added to cart!', 'success');
-    }).catch(() => {
-        showToast('Failed to add to cart', 'error');
-    });
+    }).catch(() => showToast('Failed to add to cart', 'error'));
 }
 
 // Load Cart Page
@@ -55,7 +55,10 @@ async function loadCartPage() {
         return;
     }
 
-    const total = API.getCartTotal();
+    const subtotal = API.getCartTotal();
+    const discountAmount = subtotal * (currentDiscount / 100);
+    const total = subtotal - discountAmount;
+    
     container.innerHTML = `
         <div class="cart-items">
             ${cart.map(item => `
@@ -76,22 +79,40 @@ async function loadCartPage() {
         </div>
         <div class="cart-summary">
             <h3 style="margin-bottom:20px;">Order Summary</h3>
-            <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
                 <span>Subtotal</span>
-                <strong>$${total.toFixed(2)}</strong>
+                <strong>$${subtotal.toFixed(2)}</strong>
             </div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:30px;padding-top:20px;border-top:2px solid var(--border);">
+            ${currentDiscount > 0 ? `
+            <div style="display:flex;justify-content:space-between;margin-bottom:15px;color:var(--success);">
+                <span>Discount (${currentDiscount}%)</span>
+                <strong>-$${discountAmount.toFixed(2)}</strong>
+            </div>
+            ` : ''}
+            <div style="display:flex;justify-content:space-between;margin-bottom:20px;padding-top:15px;border-top:2px solid var(--border);">
                 <span style="font-size:18px;">Total</span>
                 <strong style="font-size:24px;color:var(--primary);">$${total.toFixed(2)}</strong>
             </div>
+            
+            <div style="margin-bottom:15px;">
+                <label style="display:block;margin-bottom:8px;font-weight:600;">Discount Code</label>
+                <div style="display:flex;gap:8px;">
+                    <input type="text" id="discount-code" placeholder="Enter code" class="form-control" style="flex:1;">
+                    <button type="button" onclick="applyDiscount()" class="btn btn-outline">Apply</button>
+                </div>
+                <p id="discount-msg" style="font-size:12px;margin-top:5px;"></p>
+            </div>
+            
             <form id="checkout-form" onsubmit="handleCheckout(event)">
                 <div style="margin-bottom:15px;">
                     <label style="display:block;margin-bottom:8px;font-weight:600;">Email Address *</label>
-                    <input type="email" id="customer-email" placeholder="your@email.com" required class="form-control">
+                    <input type="email" id="customer-email" placeholder="your@email.com" required 
+                           class="form-control" style="width:100%;padding:12px;background:var(--bg-dark);border:1px solid var(--border);color:white;border-radius:8px;">
                 </div>
                 <div style="margin-bottom:15px;">
                     <label style="display:block;margin-bottom:8px;font-weight:600;">Full Name *</label>
-                    <input type="text" id="customer-name" placeholder="John Doe" required class="form-control">
+                    <input type="text" id="customer-name" placeholder="John Doe" required 
+                           class="form-control" style="width:100%;padding:12px;background:var(--bg-dark);border:1px solid var(--border);color:white;border-radius:8px;">
                 </div>
                 <button type="submit" class="btn btn-success" style="width:100%;padding:16px;font-size:16px;">
                     <i class="fas fa-lock"></i> Complete Purchase
@@ -104,6 +125,29 @@ async function loadCartPage() {
 function removeFromCart(id) {
     API.removeFromCart(id);
     loadCartPage();
+}
+
+// Apply Discount
+async function applyDiscount() {
+    const code = document.getElementById('discount-code').value;
+    const msg = document.getElementById('discount-msg');
+    
+    try {
+        const res = await API.validateDiscount(code);
+        
+        if(res.valid) {
+            currentDiscount = res.percent;
+            msg.style.color = 'var(--success)';
+            msg.textContent = `✅ ${res.percent}% discount applied!`;
+            loadCartPage(); // Recalculate total
+        } else {
+            currentDiscount = 0;
+            msg.style.color = 'var(--danger)';
+            msg.textContent = `❌ ${res.error}`;
+        }
+    } catch(e) { 
+        msg.textContent = 'Failed to validate code'; 
+    }
 }
 
 // Handle Checkout
@@ -123,6 +167,7 @@ async function handleCheckout(e) {
         const orderData = {
             customer_name: name,
             customer_email: email,
+            discount_code: document.getElementById('discount-code').value,
             items: cart.map(i => ({product_id: i.id, quantity: i.qty}))
         };
         
@@ -133,11 +178,11 @@ async function handleCheckout(e) {
                 id: res.order_id,
                 date: new Date().toISOString(),
                 items: cart,
-                total: res.total || API.getCartTotal()
+                total: res.total,
+                discount: currentDiscount
             });
             
             localStorage.setItem('user_email', email);
-            
             API.clearCart();
             showToast('Purchase successful! Redirecting...', 'success');
             
@@ -237,17 +282,13 @@ async function submitTicket(e) {
         subject: document.getElementById('ticket-subject').value,
         category: document.getElementById('ticket-category').value,
         priority: document.getElementById('ticket-priority').value,
-        message: document.getElementById('ticket-message').value,
-        status: 'open',
-        created_at: new Date().toISOString()
+        message: document.getElementById('ticket-message').value
     };
     
     try {
         await API.submitTicket(ticketData);
-        API.saveTicket(ticketData.email, ticketData);
         localStorage.setItem('user_email', ticketData.email);
-        
-        showToast('Ticket submitted successfully! We\'ll contact you soon.', 'success');
+        showToast('Ticket submitted successfully!', 'success');
         
         setTimeout(() => {
             window.location.href = '../tickets/';
@@ -255,15 +296,7 @@ async function submitTicket(e) {
         
     } catch (error) {
         console.error('Error submitting ticket:', error);
-        
-        API.saveTicket(ticketData.email, ticketData);
-        localStorage.setItem('user_email', ticketData.email);
-        
-        showToast('Ticket saved locally. Backend may be unavailable.', 'success');
-        
-        setTimeout(() => {
-            window.location.href = '../tickets/';
-        }, 1500);
+        showToast('Failed to submit ticket', 'error');
     }
 }
 
