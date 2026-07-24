@@ -1,144 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnajakCode - Minecraft Plugins</title>
+    <title>AnajakCode - Premium Minecraft Plugins</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./theme/style.css">
+    <link rel="stylesheet" href="theme/style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <a href="/">
-                    <i class="fas fa-cube"></i>
-                    <span>AnajakCode</span>
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="container header-content">
+            <a href="#" class="logo" onclick="showView('products')">
+                <i class="fas fa-cube"></i> AnajakCode
+            </a>
+            <nav class="nav-links desktop-nav">
+                <a href="#" class="nav-link active" data-view="products" onclick="showView('products')">Plugins</a>
+                <a href="#" class="nav-link" data-view="purchases" onclick="showView('purchases')">My Purchases</a>
+                <a href="#" class="nav-link" data-view="support" onclick="showView('support')">Support</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#" class="cart-btn" onclick="showView('cart')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
                 </a>
             </div>
-            <div class="nav">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/products/">Plugins</a></li>
-                    <li><a href="/purchase/">My Downloads</a></li>
-                    <li><a href="/support/">Support</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <a href="#" class="btn btn-outline" id="cart-btn">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                    </a>
-                    <a href="#" class="btn btn-primary">
-                        <i class="fas fa-user"></i> Login
-                    </a>
-                </div>
-            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <h1>Minecraft Plugins</h1>
-            <p>Premium plugins to enhance your server performance. Both free and paid options available.</p>
-            <a href="/products/" class="btn btn-primary">Browse Plugins</a>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileMenu()"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="#" class="nav-link active" data-view="products" onclick="showView('products'); toggleMobileMenu()">
+            <i class="fas fa-cube"></i> Plugins
+        </a>
+        <a href="#" class="nav-link" data-view="purchases" onclick="showView('purchases'); toggleMobileMenu()">
+            <i class="fas fa-download"></i> Purchases
+        </a>
+        <a href="#" class="nav-link" data-view="support" onclick="showView('support'); toggleMobileMenu()">
+            <i class="fas fa-headset"></i> Support
+        </a>
+        <a href="#" class="nav-link" onclick="showView('cart'); toggleMobileMenu()">
+            <i class="fas fa-shopping-cart"></i> Cart (<span id="mobile-cart-count">0</span>)
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container page-container">
+        
+        <!-- Products View -->
+        <section id="view-products" class="view-section active">
+            <div class="page-hero">
+                <h1><i class="fas fa-cube"></i> Premium Plugins</h1>
+                <p>Enhance your Minecraft server with our high-performance plugins.</p>
+            </div>
+            <div id="products-grid" class="products-grid">
+                <div class="loading-spinner"><div class="spinner"></div><p>Loading plugins...</p></div>
+            </div>
         </section>
 
-        <section class="features">
-            <div class="feature-card">
-                <i class="fas fa-server"></i>
-                <h3>High Performance</h3>
-                <p>Optimized code for minimal lag and maximum performance.</p>
+        <!-- Cart View -->
+        <section id="view-cart" class="view-section">
+            <div class="page-hero">
+                <h1><i class="fas fa-shopping-cart"></i> Shopping Cart</h1>
             </div>
-            <div class="feature-card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Secure</h3>
-                <p>Regularly updated with security patches and bug fixes.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-cog"></i>
-                <h3>Easy Setup</h3>
-                <p>Simple configuration with detailed documentation.</p>
+            <div id="cart-content" class="cart-layout">
+                <div class="loading-spinner"><div class="spinner"></div></div>
             </div>
         </section>
 
-        <section class="products">
-            <h2>Premium Plugins</h2>
-            <div class="products-grid">
-                <!-- Product cards will be dynamically loaded here -->
-                <div class="product-card" id="product-placeholder">
-                    <div class="product-loading">
-                        <div class="spinner"></div>
-                        <p>Loading plugins...</p>
+        <!-- Purchases View -->
+        <section id="view-purchases" class="view-section">
+            <div class="page-hero">
+                <h1><i class="fas fa-download"></i> My Purchases</h1>
+                <p>Download your purchased plugins and view order history.</p>
+            </div>
+            <div id="purchases-list" class="purchases-grid">
+                <div class="loading-spinner"><div class="spinner"></div><p>Loading purchases...</p></div>
+            </div>
+        </section>
+
+        <!-- Support View -->
+        <section id="view-support" class="view-section">
+            <div class="page-hero">
+                <h1><i class="fas fa-headset"></i> Support Center</h1>
+                <p>Submit a ticket or view your existing support requests.</p>
+            </div>
+            
+            <div class="support-layout">
+                <div class="ticket-form-container">
+                    <h3><i class="fas fa-plus-circle"></i> Create New Ticket</h3>
+                    <form id="support-form" onsubmit="submitTicket(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Name</label>
+                                <input type="text" id="ticket-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="ticket-email" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="ticket-category" class="form-control">
+                                    <option value="general">General Inquiry</option>
+                                    <option value="technical">Technical Issue</option>
+                                    <option value="billing">Billing / Payment</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select id="ticket-priority" class="form-control">
+                                    <option value="normal">Normal</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="ticket-subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="ticket-message" class="form-control" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i> Submit Ticket
+                        </button>
+                    </form>
+                </div>
+
+                <div class="my-tickets-container">
+                    <h3><i class="fas fa-history"></i> My Tickets</h3>
+                    <div class="tickets-filter">
+                        <select id="filter-status" class="form-control" onchange="filterTickets()">
+                            <option value="all">All Status</option>
+                            <option value="open">Open</option>
+                            <option value="pending">Pending</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                    </div>
+                    <div id="tickets-list" class="tickets-list">
+                        <div class="loading-spinner"><div class="spinner"></div></div>
                     </div>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>AnajakCode</h3>
-                    <p>Premium Minecraft plugins for your server.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/products/">Plugins</a></li>
-                        <li><a href="/support/">Support</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 AnajakCode. All rights reserved.</p>
-            </div>
+    <!-- Ticket Detail Modal -->
+    <div id="ticket-modal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeModal('ticket-modal')">&times;</span>
+            <div id="ticket-detail-content"></div>
         </div>
-    </footer>
+    </div>
 
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav">
-        <a href="/" class="nav-item active">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="/products/" class="nav-item">
-            <i class="fas fa-cube"></i>
-            <span>Plugins</span>
-        </a>
-        <a href="/cart/" class="nav-item">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Cart</span>
-            <span class="cart-badge" id="cart-badge">0</span>
-        </a>
-        <a href="/purchase/" class="nav-item">
-            <i class="fas fa-download"></i>
-            <span>Downloads</span>
-        </a>
-        <a href="/support/" class="nav-item">
-            <i class="fas fa-headset"></i>
-            <span>Support</span>
-        </a>
-    </nav>
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
 
-    <!-- Hamburger Menu -->
-    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
-
-    <script src="./api.js"></script>
-    <script src="./function/script.js"></script>
+    <script src="api.js"></script>
+    <script src="function/script.js"></script>
 </body>
 </html>
