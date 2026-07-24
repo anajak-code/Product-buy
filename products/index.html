@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnajakCode - Minecraft Plugins</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./theme/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <i class="fas fa-cube"></i>
+                    <span>AnajakCode</span>
+                </a>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/products/">Plugins</a></li>
+                    <li><a href="/purchase/">My Downloads</a></li>
+                    <li><a href="/support/">Support</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="#" class="btn btn-outline" id="cart-btn">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Minecraft Plugins</h1>
+            <p>Premium plugins to enhance your server performance. Both free and paid options available.</p>
+            <a href="/products/" class="btn btn-primary">Browse Plugins</a>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <i class="fas fa-server"></i>
+                <h3>High Performance</h3>
+                <p>Optimized code for minimal lag and maximum performance.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure</h3>
+                <p>Regularly updated with security patches and bug fixes.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-cog"></i>
+                <h3>Easy Setup</h3>
+                <p>Simple configuration with detailed documentation.</p>
+            </div>
+        </section>
+
+        <section class="products">
+            <h2>Premium Plugins</h2>
+            <div class="products-grid">
+                <!-- Product cards will be dynamically loaded here -->
+                <div class="product-card" id="product-placeholder">
+                    <div class="product-loading">
+                        <div class="spinner"></div>
+                        <p>Loading plugins...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AnajakCode</h3>
+                    <p>Premium Minecraft plugins for your server.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/products/">Plugins</a></li>
+                        <li><a href="/support/">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AnajakCode. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <a href="/" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/products/" class="nav-item">
+            <i class="fas fa-cube"></i>
+            <span>Plugins</span>
+        </a>
+        <a href="/cart/" class="nav-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Cart</span>
+            <span class="cart-badge" id="cart-badge">0</span>
+        </a>
+        <a href="/purchase/" class="nav-item">
+            <i class="fas fa-download"></i>
+            <span>Downloads</span>
+        </a>
+        <a href="/support/" class="nav-item">
+            <i class="fas fa-headset"></i>
+            <span>Support</span>
+        </a>
+    </nav>
+
+    <!-- Hamburger Menu -->
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+
+    <script src="./api.js"></script>
+    <script src="./function/script.js"></script>
+</body>
+</html>
