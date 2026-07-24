@@ -29,6 +29,7 @@ async function loadProducts() {
 // Add to Cart
 function addToCart(id) {
     API.getProduct(id).then(p => {
+        // ✅ ធានាថា file_url ត្រូវបាន Save ចូល Cart
         API.addToCart(p);
         showToast('Added to cart!', 'success');
     }).catch(() => showToast('Failed to add to cart', 'error'));
@@ -177,7 +178,7 @@ async function handleCheckout(e) {
             API.savePurchase({
                 id: res.order_id,
                 date: new Date().toISOString(),
-                items: cart,
+                items: cart, // ✅ Cart already contains file_url from addToCart
                 total: res.total,
                 discount: currentDiscount
             });
@@ -232,6 +233,7 @@ async function loadPurchases() {
                             <strong>${item.name}</strong><br>
                             <small style="color:var(--text-muted)">v1.0 • .jar file</small>
                         </div>
+                        <!-- ✅ Pass full file_url or fallback -->
                         <button onclick="downloadFile('${item.file_url || '/downloads/sample.jar'}', '${item.name}.jar')" 
                                 class="btn btn-primary" style="width:auto;padding:8px 16px;font-size:13px;">
                             <i class="fas fa-download"></i> Download
@@ -248,16 +250,35 @@ async function loadPurchases() {
     }
 }
 
-// Download File
-async function downloadFile(url, filename) {
+// ✅ FIXED DOWNLOAD FUNCTION
+async function downloadFile(fileUrl, filename) {
+    if (!fileUrl) {
+        showToast('Error: File link is missing.', 'error');
+        return;
+    }
+
+    // ✅ 1. Construct Full URL if relative path
+    let fullUrl = fileUrl;
+    if (fileUrl.startsWith('/')) {
+        // Remove trailing slash from API_BASE if present
+        const base = API_BASE.endsWith('/') ? API_BASE.slice(0, -1) : API_BASE;
+        fullUrl = base + fileUrl;
+    }
+
+    console.log('Downloading from:', fullUrl);
+
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Network response was not ok');
+        // ✅ 2. Fetch with credentials if needed (though uploads are usually public)
+        const response = await fetch(fullUrl);
         
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
+        }
+
         const blob = await response.blob();
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = filename;
+        link.download = filename || 'plugin.jar';
         
         document.body.appendChild(link);
         link.click();
@@ -267,8 +288,8 @@ async function downloadFile(url, filename) {
         
         showToast('Download started!', 'success');
     } catch (error) {
-        console.error('Download failed:', error);
-        showToast('Download failed. Please try again.', 'error');
+        console.error('Download error:', error);
+        showToast(`Download failed: ${error.message}`, 'error');
     }
 }
 
